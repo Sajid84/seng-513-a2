@@ -1,2 +1,2 @@
-# seng-513-a2
+# SENG 513 - Assignment 2
 Develop a 'Customizable Quiz' using vanilla JavaScript.
