@@ -25,7 +25,66 @@ const questions = [
     answers: ["3", "4", "5", "6"],
     correct: 1,
   },
-  // These are just dummy questions. We need to use a link
+  {
+    question: "Which planet is known as the Red Planet?",
+    answers: ["Earth", "Mars", "Jupiter", "Venus"],
+    correct: 1,
+  },
+  {
+    question: "What is the largest mammal in the world?",
+    answers: ["Elephant", "Blue Whale", "Great White Shark", "Giraffe"],
+    correct: 1,
+  },
+  {
+    question: "How many continents are there on Earth?",
+    answers: ["5", "6", "7", "8"],
+    correct: 2,
+  },
+  {
+    question: "What is the chemical symbol for water?",
+    answers: ["H2O", "CO2", "O2", "NaCl"],
+    correct: 0,
+  },
+  {
+    question: "Who painted the Mona Lisa?",
+    answers: [
+      "Vincent van Gogh",
+      "Leonardo da Vinci",
+      "Pablo Picasso",
+      "Claude Monet",
+    ],
+    correct: 1,
+  },
+  {
+    question: "Which is the longest river in the world?",
+    answers: [
+      "Amazon River",
+      "Yangtze River",
+      "Mississippi River",
+      "Nile River",
+    ],
+    correct: 3,
+  },
+  {
+    question: "Which year did the Titanic sink?",
+    answers: ["1905", "1912", "1923", "1898"],
+    correct: 1,
+  },
+  {
+    question: "What is the tallest mountain in the world?",
+    answers: ["Mount Kilimanjaro", "Mount Everest", "K2", "Denali"],
+    correct: 1,
+  },
+  {
+    question: "How many legs does a spider have?",
+    answers: ["6", "8", "10", "12"],
+    correct: 1,
+  },
+  {
+    question: "What is the capital of Japan?",
+    answers: ["Beijing", "Seoul", "Bangkok", "Tokyo"],
+    correct: 3,
+  },
 ];
 
 startButton.addEventListener("click", startQuiz);
