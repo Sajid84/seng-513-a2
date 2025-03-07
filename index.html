@@ -1,32 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Custom Quiz</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <div class="quiz-container">
-        <h1>Custom Quiz</h1>
-        <button id="start-button">Start Quiz</button>
-        <div id="question-container" class="hidden">
-            <p id="question-text">Loading question...</p>
-            <div id="answer-buttons" class="btn-container">
-                <input type="radio" name="answer" id="answer1" class="answer">
-                <label for="answer1" id="answer1-text"></label><br>
-                <input type="radio" name="answer" id="answer2" class="answer">
-                <label for="answer2" id="answer2-text"></label><br>
-                <input type="radio" name="answer" id="answer3" class="answer">
-                <label for="answer3" id="answer3-text"></label><br>
-                <input type="radio" name="answer" id="answer4" class="answer">
-                <label for="answer4" id="answer4-text"></label>
-            </div>
-            <button id="submit-button">Submit Answer</button>
-        </div>
-        <p id="score">Score: 0</p>
+      <h1>Trivia Quiz</h1>
+      <p id="score">Score: 0</p>
+      <button id="start-button">Start Quiz</button>
+      <div id="question-container" class="hidden">
+        <p id="question-text">Loading question...</p>
+        <div id="answer-buttons" class="btn-container"></div>
+      </div>
     </div>
-    
+
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

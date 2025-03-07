@@ -8,7 +8,6 @@ const answerLabels = [
   document.getElementById("answer3-text"),
   document.getElementById("answer4-text"),
 ];
-const submitButton = document.getElementById("submit-button");
 const scoreElement = document.getElementById("score");
 
 let currentQuestionIndex = 0;
@@ -78,7 +77,6 @@ const questions = [
 ];
 
 startButton.addEventListener("click", startQuiz);
-submitButton.addEventListener("click", submitAnswer);
 
 function startQuiz() {
   // Reset the score ONLY when the restart button is clicked
@@ -96,16 +94,35 @@ function showQuestion() {
   resetState();
   const currentQuestion = questions[currentQuestionIndex];
   questionText.textContent = currentQuestion.question;
+
   currentQuestion.answers.forEach((answer, index) => {
-    answerLabels[index].textContent = answer;
-    answerButtons[index].value = index;
+    const button = document.createElement("button");
+    button.classList.add("answer-btn");
+    button.textContent = answer;
+    button.dataset.index = index;
+
+    button.addEventListener("click", () => selectAnswer(index));
+
+    document.getElementById("answer-buttons").appendChild(button);
   });
 }
 
 function resetState() {
-  answerButtons.forEach((button) => {
-    button.checked = false;
-  });
+  document.getElementById("answer-buttons").innerHTML = ""; // Clears previous answers
+}
+
+function selectAnswer(selectedIndex) {
+  if (selectedIndex === questions[currentQuestionIndex].correct) {
+    score++;
+    scoreElement.textContent = `Score: ${score}`; // Update score immediately
+  }
+
+  currentQuestionIndex++;
+  if (currentQuestionIndex < questions.length) {
+    showQuestion();
+  } else {
+    endQuiz();
+  }
 }
 
 function submitAnswer() {
@@ -134,5 +151,7 @@ function endQuiz() {
   startButton.textContent = "Restart Quiz";
   startButton.classList.remove("hidden");
 
-  // Don't reset the score yet! Just keep it visible.
+  // Style the score prominently at the end screen
+  scoreElement.classList.add("final-score");
+  scoreElement.textContent = `Final Score: ${score}`;
 }
