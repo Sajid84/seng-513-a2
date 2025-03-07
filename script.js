@@ -26,11 +26,6 @@ const questions = [
     correct: 1,
   },
   {
-    question: "Which planet is known as the Red Planet?",
-    answers: ["Earth", "Mars", "Jupiter", "Venus"],
-    correct: 1,
-  },
-  {
     question: "What is the largest mammal in the world?",
     answers: ["Elephant", "Blue Whale", "Great White Shark", "Giraffe"],
     correct: 1,
@@ -64,11 +59,6 @@ const questions = [
       "Nile River",
     ],
     correct: 3,
-  },
-  {
-    question: "Which year did the Titanic sink?",
-    answers: ["1905", "1912", "1923", "1898"],
-    correct: 1,
   },
   {
     question: "What is the tallest mountain in the world?",
@@ -136,9 +126,11 @@ function submitAnswer() {
 
 function endQuiz() {
   questionContainer.classList.add("hidden");
-  scoreElement.textContent = `Score: ${score}`;
   startButton.textContent = "Restart Quiz";
   startButton.classList.remove("hidden");
+
+  // Reset quiz state
   currentQuestionIndex = 0;
   score = 0;
+  scoreElement.textContent = `Score: ${score}`; // Reset score immediately
 }
