@@ -81,9 +81,14 @@ startButton.addEventListener("click", startQuiz);
 submitButton.addEventListener("click", submitAnswer);
 
 function startQuiz() {
-  score = 0; // Reset score at the start of the quiz
+  // Reset the score ONLY when the restart button is clicked
+  score = 0;
+  scoreElement.textContent = `Score: ${score}`;
+
+  currentQuestionIndex = 0;
   startButton.classList.add("hidden");
   questionContainer.classList.remove("hidden");
+
   showQuestion();
 }
 
@@ -129,8 +134,5 @@ function endQuiz() {
   startButton.textContent = "Restart Quiz";
   startButton.classList.remove("hidden");
 
-  // Reset quiz state
-  currentQuestionIndex = 0;
-  score = 0;
-  scoreElement.textContent = `Score: ${score}`; // Reset score immediately
+  // Don't reset the score yet! Just keep it visible.
 }
