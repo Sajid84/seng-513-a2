@@ -12,74 +12,59 @@ const scoreElement = document.getElementById("score");
 
 let currentQuestionIndex = 0;
 let score = 0;
-
-const questions = [
-  {
-    question: "What is the capital of France?",
-    answers: ["Berlin", "Madrid", "Paris", "Lisbon"],
-    correct: 2,
-  },
-  {
-    question: "What is 2 + 2?",
-    answers: ["3", "4", "5", "6"],
-    correct: 1,
-  },
-  {
-    question: "What is the largest mammal in the world?",
-    answers: ["Elephant", "Blue Whale", "Great White Shark", "Giraffe"],
-    correct: 1,
-  },
-  {
-    question: "How many continents are there on Earth?",
-    answers: ["5", "6", "7", "8"],
-    correct: 2,
-  },
-  {
-    question: "What is the chemical symbol for water?",
-    answers: ["H2O", "CO2", "O2", "NaCl"],
-    correct: 0,
-  },
-  {
-    question: "Who painted the Mona Lisa?",
-    answers: [
-      "Vincent van Gogh",
-      "Leonardo da Vinci",
-      "Pablo Picasso",
-      "Claude Monet",
-    ],
-    correct: 1,
-  },
-  {
-    question: "Which is the longest river in the world?",
-    answers: [
-      "Amazon River",
-      "Yangtze River",
-      "Mississippi River",
-      "Nile River",
-    ],
-    correct: 3,
-  },
-  {
-    question: "What is the tallest mountain in the world?",
-    answers: ["Mount Kilimanjaro", "Mount Everest", "K2", "Denali"],
-    correct: 1,
-  },
-  {
-    question: "How many legs does a spider have?",
-    answers: ["6", "8", "10", "12"],
-    correct: 1,
-  },
-  {
-    question: "What is the capital of Japan?",
-    answers: ["Beijing", "Seoul", "Bangkok", "Tokyo"],
-    correct: 3,
-  },
-];
+const questions = [];
 
 startButton.addEventListener("click", startQuiz);
 
-function startQuiz() {
-  // Reset the score ONLY when the restart button is clicked
+async function getQuestions(){
+  try {
+    const response = await fetch("https://opentdb.com/api.php?amount=5&encode=url3986");
+    const data = await response.json();
+    console.log(data)
+
+    data.results.forEach(item => {
+      const decodedQuestion = decodeURIComponent(item.question);
+      const decodedCorrectAnswer = decodeURIComponent(item.correct_answer);
+      
+      if (item.type === "multiple") {
+        // Create array with all answers
+        const allAnswers = [
+          ...item.incorrect_answers.map(answer => decodeURIComponent(answer)),
+          decodedCorrectAnswer
+        ];
+        
+        // Shuffle answers
+        for (let i = allAnswers.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [allAnswers[i], allAnswers[j]] = [allAnswers[j], allAnswers[i]];
+        }
+        
+        questions.push({
+          question: decodedQuestion,
+          answers: allAnswers,
+          correct: decodedCorrectAnswer
+        });
+      } else {
+        questions.push({
+          question: decodedQuestion,
+          answers: ["True", "False"],
+          correct: decodedCorrectAnswer
+        });
+      }
+    });
+} catch (error) {
+    console.error("Error fetching data:", error);
+}
+
+}
+
+
+async function startQuiz() {
+  // Once start or restart is clicked, clear questions and pull in new ones
+  questions.splice(0, questions.length)
+  await getQuestions();
+
+  // reset score
   score = 0;
   scoreElement.textContent = `Score: ${score}`;
 
@@ -101,7 +86,7 @@ function showQuestion() {
     button.textContent = answer;
     button.dataset.index = index;
 
-    button.addEventListener("click", () => selectAnswer(index));
+    button.addEventListener("click", () => selectAnswer(answer));
 
     document.getElementById("answer-buttons").appendChild(button);
   });
@@ -111,8 +96,8 @@ function resetState() {
   document.getElementById("answer-buttons").innerHTML = ""; // Clears previous answers
 }
 
-function selectAnswer(selectedIndex) {
-  if (selectedIndex === questions[currentQuestionIndex].correct) {
+function selectAnswer(selectedAnswer) {
+  if (selectedAnswer === questions[currentQuestionIndex].correct) {
     score++;
     scoreElement.textContent = `Score: ${score}`; // Update score immediately
   }
@@ -125,26 +110,6 @@ function selectAnswer(selectedIndex) {
   }
 }
 
-function submitAnswer() {
-  const selectedAnswer = document.querySelector('input[name="answer"]:checked');
-  if (selectedAnswer) {
-    const answerIndex = parseInt(selectedAnswer.value);
-
-    if (answerIndex === questions[currentQuestionIndex].correct) {
-      score++;
-      scoreElement.textContent = `Score: ${score}`; // Update score immediately
-    }
-
-    currentQuestionIndex++;
-    if (currentQuestionIndex < questions.length) {
-      showQuestion();
-    } else {
-      endQuiz();
-    }
-  } else {
-    alert("Please select an answer before submitting.");
-  }
-}
 
 function endQuiz() {
   questionContainer.classList.add("hidden");
@@ -155,3 +120,28 @@ function endQuiz() {
   scoreElement.classList.add("final-score");
   scoreElement.textContent = `Final Score: ${score}`;
 }
+
+// ------------------- Unused Below (just keeping for now incase we need it)
+
+// function submitAnswer() {
+//   const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+//   if (selectedAnswer) {
+//     const answerIndex = parseInt(selectedAnswer.value);
+
+//     if (answerIndex === questions[currentQuestionIndex].correct) {
+//       score++;
+//       scoreElement.textContent = `Score: ${score}`; // Update score immediately
+//     }
+
+//     currentQuestionIndex++;
+//     if (currentQuestionIndex < questions.length) {
+//       showQuestion();
+//     } else {
+//       endQuiz();
+//     }
+//   } else {
+//     alert("Please select an answer before submitting.");
+//   }
+// }
+
+
