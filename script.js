@@ -16,52 +16,52 @@ const questions = [];
 
 startButton.addEventListener("click", startQuiz);
 
-async function getQuestions(){
+async function getQuestions() {
   try {
-    const response = await fetch("https://opentdb.com/api.php?amount=5&encode=url3986");
+    const response = await fetch(
+      "https://opentdb.com/api.php?amount=5&encode=url3986"
+    );
     const data = await response.json();
-    console.log(data)
+    console.log(data);
 
-    data.results.forEach(item => {
+    data.results.forEach((item) => {
       const decodedQuestion = decodeURIComponent(item.question);
       const decodedCorrectAnswer = decodeURIComponent(item.correct_answer);
-      
+
       if (item.type === "multiple") {
         // Create array with all answers
         const allAnswers = [
-          ...item.incorrect_answers.map(answer => decodeURIComponent(answer)),
-          decodedCorrectAnswer
+          ...item.incorrect_answers.map((answer) => decodeURIComponent(answer)),
+          decodedCorrectAnswer,
         ];
-        
+
         // Shuffle answers
         for (let i = allAnswers.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
           [allAnswers[i], allAnswers[j]] = [allAnswers[j], allAnswers[i]];
         }
-        
+
         questions.push({
           question: decodedQuestion,
           answers: allAnswers,
-          correct: decodedCorrectAnswer
+          correct: decodedCorrectAnswer,
         });
       } else {
         questions.push({
           question: decodedQuestion,
           answers: ["True", "False"],
-          correct: decodedCorrectAnswer
+          correct: decodedCorrectAnswer,
         });
       }
     });
-} catch (error) {
+  } catch (error) {
     console.error("Error fetching data:", error);
+  }
 }
-
-}
-
 
 async function startQuiz() {
   // Once start or restart is clicked, clear questions and pull in new ones
-  questions.splice(0, questions.length)
+  questions.splice(0, questions.length);
   await getQuestions();
 
   // reset score
@@ -110,7 +110,6 @@ function selectAnswer(selectedAnswer) {
   }
 }
 
-
 function endQuiz() {
   questionContainer.classList.add("hidden");
   startButton.textContent = "Restart Quiz";
@@ -119,6 +118,7 @@ function endQuiz() {
   // Style the score prominently at the end screen
   scoreElement.classList.add("final-score");
   scoreElement.textContent = `Final Score: ${score}`;
+  startButton.onclick = () => location.reload();
 }
 
 // ------------------- Unused Below (just keeping for now incase we need it)
@@ -143,5 +143,3 @@ function endQuiz() {
 //     alert("Please select an answer before submitting.");
 //   }
 // }
-
-
