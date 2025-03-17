@@ -147,7 +147,9 @@ class Quiz {
             btn.disabled = true;
         });
         if (selected !== correct) {
-            button.style.backgroundColor = "blue";
+            button.style.backgroundColor = "rgba(242, 43, 43, 0.5)";
+
+
         }
         Array.from(this.answerButtonsContainer.children).forEach(btn => {
             if (btn.textContent === correct) btn.style.backgroundColor = "green";
